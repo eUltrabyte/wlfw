@@ -22,6 +22,8 @@
     #define WLFW_API
 #endif
 
+#define WLFW_BYTE(value) (1 << value)
+
 #ifdef WLFW_WINDOW_PLATFORM_WIN32
     #include <Windows.h>
     #include <windowsx.h>
@@ -44,8 +46,22 @@
     #define WLFW_TRACE()
 #endif
 
-#define WLFW_CHECK(value) if(!value) { WLFW_TRACE(); }
+#define WLFW_CHECK(value) if(value < 0) { WLFW_TRACE(); }
 
-#include "Win32/Window.hpp"
+#ifdef WLFW_WINDOW_PLATFORM_WIN32
+    #include "Win32/WindowWin32.hpp"
+    
+    namespace wl {
+        using Window = WindowWin32;
+    };
+#else
+    #ifdef WLFW_UNIX_WINDOW_PLATFORM_X11
+        // TODO
+    #elif WLFW_UNIX_WINDOW_PLATFORM_XCB
+        // TODO
+    #elif WLFW_UNIX_WINDOW_PLATFORM_WAYLAND
+        // TODO
+    #endif
+#endif
 
 #endif

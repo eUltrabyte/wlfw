@@ -8,8 +8,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 set(WLFW_SOURCE
     Source/wlfw/wlfw.hpp
     Source/wlfw/wlfw.cpp
-    Source/wlfw/Win32/Window.hpp
-    Source/wlfw/Win32/Window.cpp
+    Source/wlfw/Window.hpp
+    Source/wlfw/Window.cpp
+    Source/wlfw/Win32/WindowWin32.hpp
+    Source/wlfw/Win32/WindowWin32.cpp
 )
 
 set(WLFW_UNIX_WINDOW_PLATFORM X11)
