@@ -8,6 +8,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 set(WLFW_SOURCE
     Source/wlfw/wlfw.hpp
     Source/wlfw/wlfw.cpp
+    Source/wlfw/Win32/Window.hpp
+    Source/wlfw/Win32/Window.cpp
 )
 
 set(WLFW_UNIX_WINDOW_PLATFORM X11)
@@ -60,7 +62,7 @@ if(UNIX)
         target_link_libraries(${PROJECT_NAME} PUBLIC ${Wayland_LIBRARIES} Threads::Threads)
     endif()
 else()
-    target_compile_definitions(${PROJECT_NAME} PUBLIC "-DWLFW_UNIX_WINDOW_PLATFORM_WIN32")
+    target_compile_definitions(${PROJECT_NAME} PUBLIC "-DWLFW_WINDOW_PLATFORM_WIN32")
 endif()
 
 add_subdirectory(Examples)
