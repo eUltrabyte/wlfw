@@ -9,9 +9,8 @@ set(WLFW_SOURCE
     Source/wlfw/wlfw.hpp
     Source/wlfw/wlfw.cpp
     Source/wlfw/Window.hpp
-    Source/wlfw/Window.cpp
-    Source/wlfw/Win32/WindowWin32.hpp
-    Source/wlfw/Win32/WindowWin32.cpp
+    Source/wlfw/NativeWindow.hpp
+    Source/wlfw/NativeWindow.cpp
 )
 
 set(WLFW_UNIX_WINDOW_PLATFORM X11)
@@ -34,6 +33,11 @@ if(UNIX)
     endif()
 else()
     message("Using Win32")
+
+    set(WLFW_PLATFORM_SOURCE
+        Source/wlfw/Win32/WindowWin32.hpp
+        Source/wlfw/Win32/WindowWin32.cpp
+    )
 endif()
 
 option(WLFW_SHARED_LIBRARY "wlfw build using shared libraries" OFF)
@@ -44,9 +48,9 @@ if(WLFW_SHARED_LIBRARY)
     if(WLFW_SHARED_BUILD)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DWLFW_SHARED_BUILD")
     endif()
-    add_library(${PROJECT_NAME} SHARED ${WLFW_SOURCE})
+    add_library(${PROJECT_NAME} SHARED ${WLFW_SOURCE} ${WLFW_PLATFORM_SOURCE})
 else()
-    add_library(${PROJECT_NAME} STATIC ${WLFW_SOURCE})
+    add_library(${PROJECT_NAME} STATIC ${WLFW_SOURCE} ${WLFW_PLATFORM_SOURCE})
 endif()
 
 target_precompile_headers(${PROJECT_NAME} PUBLIC Source/wlfw/wlfwpch.hpp Source/wlfw/wlfwpch.cpp)
