@@ -5,15 +5,13 @@
 #include "../NativeWindow.hpp"
 
 namespace wl {
-    using WindowProc = std::function<LRESULT(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)>;
-
     class WLFW_API WindowWin32 : public NativeWindow {
     public:
         ////////////////////////////////////////////////////////////
         /// \brief WindowWin32 Constructor
         ///
         ////////////////////////////////////////////////////////////
-        WindowWin32();
+        WindowWin32(const WindowProps& windowProps = WindowProps());
 
         ////////////////////////////////////////////////////////////
         /// \brief WindowWin32 Destructor
@@ -40,6 +38,7 @@ namespace wl {
         virtual HINSTANCE& GetHINSTANCE();
 
     private:
+        WNDCLASS m_windowClass;
         HWND m_hwnd;
         HINSTANCE m_hinstance;
 

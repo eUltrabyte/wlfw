@@ -1,16 +1,17 @@
 #include "WindowWin32.hpp"
 
 namespace wl {
-    WindowWin32::WindowWin32() {
+    WindowWin32::WindowWin32(const WindowProps& windowProps)
+        : NativeWindow(windowProps) {
+        m_windowClass = { };
         m_hwnd = { };
         m_hinstance = GetModuleHandle(nullptr);
 
-        WNDCLASS windowClassEx { };
-        windowClassEx.cbClsExtra = 0;
-        windowClassEx.cbWndExtra = 0;
-        windowClassEx.style = 0;
+        m_windowClass.cbClsExtra = 0;
+        m_windowClass.cbWndExtra = 0;
+        m_windowClass.style = 0;
 
-        windowClassEx.lpfnWndProc = [](HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) -> LRESULT {
+        m_windowClass.lpfnWndProc = [](HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) -> LRESULT {
             switch(message) {
                 case WM_CREATE: {
                     std::cout << "create window\n";
@@ -20,6 +21,8 @@ namespace wl {
 
                 case WM_CLOSE: {
                     std::cout << "close window\n";
+                    PostQuitMessage(0);
+                    DestroyWindow(hwnd);
                 } break;
 
                 default: {
@@ -28,21 +31,30 @@ namespace wl {
             }
         };
 
-        windowClassEx.hInstance = m_hinstance;
-        windowClassEx.hIcon = 0;
-        windowClassEx.hCursor = LoadCursor(0, IDC_ARROW);
-        windowClassEx.hbrBackground  =(HBRUSH)10;
-        windowClassEx.lpszMenuName = nullptr;
-        windowClassEx.lpszClassName = reinterpret_cast<LPCSTR>("wlfw window win32 class");
+        m_windowClass.hInstance = m_hinstance;
+        m_windowClass.hIcon = 0;
+        m_windowClass.hCursor = LoadCursor(0, IDC_ARROW);
+        m_windowClass.hbrBackground = (HBRUSH)10;
+        m_windowClass.lpszMenuName = nullptr;
+        m_windowClass.lpszClassName = reinterpret_cast<LPCSTR>("wlfw window win32 class");
 
-        WLFW_CHECK(RegisterClass(&windowClassEx));
+        RegisterClass(&m_windowClass);
 
-        m_hwnd = CreateWindow(windowClassEx.lpszClassName, reinterpret_cast<LPCSTR>("wlfw window win32"), WS_OVERLAPPEDWINDOW, 0, 0, m_windowProps->GetWidth(), m_windowProps->GetHeight(), 0, 0, m_hinstance, nullptr);
+        RECT windowFixedSize;
+        windowFixedSize.left = 50;
+        windowFixedSize.top = 50;
+        windowFixedSize.right = 50 + GetWindowProps()->GetWidth();
+        windowFixedSize.bottom = 50 + GetWindowProps()->GetHeight();
+
+        AdjustWindowRect(&windowFixedSize, GetWindowProps()->GetStyle(), 0);
+
+        m_hwnd = CreateWindow(m_windowClass.lpszClassName, reinterpret_cast<LPCSTR>(GetWindowProps()->GetTitle().c_str()), GetWindowProps()->GetStyle(), windowFixedSize.left, windowFixedSize.top, windowFixedSize.right - windowFixedSize.left, windowFixedSize.bottom - windowFixedSize.top, 0, 0, m_hinstance, nullptr);
         WLFW_CHECK(m_hwnd);
     }
     
     WindowWin32::~WindowWin32() {
         DestroyWindow(m_hwnd);
+        UnregisterClass(m_windowClass.lpszClassName, m_hinstance);
     }
 
     void WindowWin32::Update() {

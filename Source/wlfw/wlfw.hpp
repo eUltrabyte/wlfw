@@ -22,9 +22,12 @@
     #define WLFW_API
 #endif
 
+////////////////////////////////////////////////////////////
+/// \brief WLFW_BYTE Is Define Which Will Move Your Value
+///
+////////////////////////////////////////////////////////////
 #define WLFW_BYTE(value) (1 << value)
 
-// #define WLFW_WINDOW_PLATFORM_WIN32
 #ifdef WLFW_WINDOW_PLATFORM_WIN32
     #include <Windows.h>
     #include <windowsx.h>
@@ -42,11 +45,23 @@
 #endif
 
 #ifdef WLFW_DEBUG
-    #define WLFW_TRACE() { std::cerr << "wlfw trace : " << __FILE__ << " : " << __LINE__ << " : " << __FUNCTION__; }
+    ////////////////////////////////////////////////////////////
+    /// \brief WLFW_TRACE Is Define Which Will Trace Your Errors In Code
+    ///
+    ////////////////////////////////////////////////////////////
+    #define WLFW_TRACE() { std::cerr << "wlfw trace : " << __FILE__ << " : " << __LINE__ << " : " << __FUNCTION__ << '\n'; }
 #else
+    ////////////////////////////////////////////////////////////
+    /// \brief WLFW_TRACE Is Not Used
+    ///
+    ////////////////////////////////////////////////////////////
     #define WLFW_TRACE()
 #endif
 
+////////////////////////////////////////////////////////////
+/// \brief WLFW_CHECK Is Define Which Execute WLFW_TRACE If Your Entered Value Is Invalid
+///
+////////////////////////////////////////////////////////////
 #define WLFW_CHECK(value) if(!value) { WLFW_TRACE(); }
 
 #endif
