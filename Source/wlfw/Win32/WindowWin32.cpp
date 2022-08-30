@@ -40,16 +40,52 @@ namespace wl {
 
         RegisterClass(&m_windowClass);
 
+        unsigned long windowStyles = WS_VISIBLE;
+        if(GetWindowProps()->GetStyle() == Style::None) {
+            windowStyles |= WS_POPUP;
+        } else {
+            if(GetWindowProps()->GetStyle() & Style::Titlebar) {
+                windowStyles |= WS_CAPTION;
+            }
+
+            if(GetWindowProps()->GetStyle() & Style::Minimize) {
+                windowStyles |= WS_THICKFRAME | WS_MINIMIZEBOX | WS_SYSMENU;
+            }
+
+            if(GetWindowProps()->GetStyle() & Style::Maximize) {
+                windowStyles |= WS_THICKFRAME | WS_MAXIMIZEBOX | WS_SYSMENU;
+            }
+
+            if(GetWindowProps()->GetStyle() & Style::Close) {
+                windowStyles |= WS_SYSMENU;
+            }
+        }
+
         RECT windowFixedSize;
         windowFixedSize.left = 50;
         windowFixedSize.top = 50;
         windowFixedSize.right = 50 + GetWindowProps()->GetWidth();
         windowFixedSize.bottom = 50 + GetWindowProps()->GetHeight();
 
-        AdjustWindowRect(&windowFixedSize, GetWindowProps()->GetStyle(), 0);
+        AdjustWindowRect(&windowFixedSize, windowStyles, 0);
 
-        m_hwnd = CreateWindow(m_windowClass.lpszClassName, reinterpret_cast<LPCSTR>(GetWindowProps()->GetTitle().c_str()), GetWindowProps()->GetStyle(), windowFixedSize.left, windowFixedSize.top, windowFixedSize.right - windowFixedSize.left, windowFixedSize.bottom - windowFixedSize.top, 0, 0, m_hinstance, nullptr);
+        m_hwnd = CreateWindow(m_windowClass.lpszClassName, reinterpret_cast<LPCSTR>(GetWindowProps()->GetTitle().c_str()), windowStyles, windowFixedSize.left, windowFixedSize.top, windowFixedSize.right - windowFixedSize.left, windowFixedSize.bottom - windowFixedSize.top, 0, 0, m_hinstance, nullptr);
         WLFW_CHECK(m_hwnd);
+
+        if(GetWindowProps()->GetStyle() & Style::Fullscreen) {
+            DEVMODE devMode { };
+            devMode.dmSize = sizeof(devMode);
+            devMode.dmPelsWidth = GetWindowProps()->GetWidth();
+            devMode.dmPelsHeight = GetWindowProps()->GetHeight();
+            devMode.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT;
+
+            ChangeDisplaySettings(&devMode, CDS_FULLSCREEN);
+
+            SetWindowLongPtr(m_hwnd, GWL_STYLE, static_cast<LONG_PTR>(WS_POPUP) | static_cast<LONG_PTR>(WS_CLIPCHILDREN) | static_cast<LONG_PTR>(WS_CLIPSIBLINGS));
+            SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, WS_EX_APPWINDOW);
+            SetWindowPos(m_hwnd, HWND_TOP, 0, 0, devMode.dmPelsWidth, devMode.dmPelsHeight, SWP_FRAMECHANGED);
+            ShowWindow(m_hwnd, 5);
+        }
     }
     
     WindowWin32::~WindowWin32() {

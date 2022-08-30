@@ -11,6 +11,8 @@ set(WLFW_SOURCE
     Source/wlfw/Window.hpp
     Source/wlfw/NativeWindow.hpp
     Source/wlfw/NativeWindow.cpp
+    Source/wlfw/Event.hpp
+    Source/wlfw/EventHandler.hpp
 )
 
 set(WLFW_UNIX_WINDOW_PLATFORM X11)

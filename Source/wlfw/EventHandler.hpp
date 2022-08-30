@@ -1,0 +1,38 @@
+#pragma once
+#ifndef WLFW_EVENT_HANDLER_HEADER
+#define WLFW_EVENT_HANDLER_HEADER
+
+#include "wlfw.hpp"
+#include "Event.hpp"
+
+namespace wl {
+    ////////////////////////////////////////////////////////////
+    /// \brief Event Handler Class Which Can Invoke Every Event
+    ///
+    ////////////////////////////////////////////////////////////
+    class WL_API EventHandler {
+    public:
+        ////////////////////////////////////////////////////////////
+        /// \brief Event Handler Constructor
+        ///
+        ////////////////////////////////////////////////////////////
+        EventHandler() = default;
+
+        ////////////////////////////////////////////////////////////
+        /// \brief Event Handler Destructor
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual ~EventHandler() = default;
+        
+        ////////////////////////////////////////////////////////////
+        /// \brief Event Handler Invoke Event Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual void Invoke(const Event& event) { std::cout << event.GetFormat() << '\n'; }
+
+        // TODO
+
+    };
+};
+
+#endif

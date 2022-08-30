@@ -3,8 +3,14 @@
 #define WLFW_NATIVE_WINDOW_HEADER
 
 #include "wlfw.hpp"
+#include "Event.hpp"
+#include "EventHandler.hpp"
 
 namespace wl {
+    ////////////////////////////////////////////////////////////
+    /// \brief Enum With Our Implemented Window Styles
+    ///
+    ////////////////////////////////////////////////////////////
     enum WLFW_API Style {
         None = 0,
         Titlebar = WLFW_BYTE(0),
@@ -12,9 +18,13 @@ namespace wl {
         Maximize = WLFW_BYTE(2),
         Fullscreen = WLFW_BYTE(3),
         Close = WLFW_BYTE(4),
-        Default = WLFW_BYTE(0) | WLFW_BYTE(2) | WLFW_BYTE(4),
+        Default = WLFW_BYTE(0) | WLFW_BYTE(1) | WLFW_BYTE(2) | WLFW_BYTE(4),
     };
 
+    ////////////////////////////////////////////////////////////
+    /// \brief Window Props Class Which Have Information About Our Window
+    ///
+    ////////////////////////////////////////////////////////////
     struct WLFW_API WindowProps {
     public:
         ////////////////////////////////////////////////////////////
@@ -102,6 +112,10 @@ namespace wl {
 
     };
 
+    ////////////////////////////////////////////////////////////
+    /// \brief Native Window Class Which Is Every Window Implementation Base
+    ///
+    ////////////////////////////////////////////////////////////
     class WLFW_API NativeWindow {
     public:
         ////////////////////////////////////////////////////////////
