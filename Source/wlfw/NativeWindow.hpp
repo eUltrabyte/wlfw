@@ -12,13 +12,13 @@ namespace wl {
     ///
     ////////////////////////////////////////////////////////////
     enum WLFW_API Style {
-        None = 0,
-        Titlebar = WLFW_BYTE(0),
-        Minimize = WLFW_BYTE(1),
-        Maximize = WLFW_BYTE(2),
-        Fullscreen = WLFW_BYTE(3),
-        Close = WLFW_BYTE(4),
-        Default = WLFW_BYTE(0) | WLFW_BYTE(1) | WLFW_BYTE(2) | WLFW_BYTE(4),
+        None = WLFW_BYTE(0),
+        Titlebar = WLFW_BYTE(1),
+        Minimize = WLFW_BYTE(2),
+        Maximize = WLFW_BYTE(3),
+        Fullscreen = WLFW_BYTE(4),
+        Close = WLFW_BYTE(5),
+        Default = WLFW_BYTE(1) | WLFW_BYTE(2) | WLFW_BYTE(3) | WLFW_BYTE(5),
     };
 
     ////////////////////////////////////////////////////////////

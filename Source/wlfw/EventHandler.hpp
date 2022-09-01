@@ -10,7 +10,7 @@ namespace wl {
     /// \brief Event Handler Class Which Can Invoke Every Event
     ///
     ////////////////////////////////////////////////////////////
-    class WL_API EventHandler {
+    class WLFW_API EventHandler {
     public:
         ////////////////////////////////////////////////////////////
         /// \brief Event Handler Constructor
@@ -30,7 +30,7 @@ namespace wl {
         ////////////////////////////////////////////////////////////
         virtual void Invoke(const Event& event) { std::cout << event.GetFormat() << '\n'; }
 
-        // TODO
+        // TODO CALLBACKS
 
     };
 };

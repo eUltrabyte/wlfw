@@ -1,6 +1,45 @@
 #include "WindowWin32.hpp"
 
 namespace wl {
+    int ConvertWin32KeyToFixedKey(int key) {
+        static unsigned int fixedKey = key;
+
+        switch(key) {
+            case 81: { fixedKey = Keys::Q; } break;
+            case 87: { fixedKey = Keys::W; } break;
+            case 69: { fixedKey = Keys::E; } break;
+            case 82: { fixedKey = Keys::R; } break;
+            case 84: { fixedKey = Keys::T; } break;
+            case 89: { fixedKey = Keys::Y; } break;
+            case 85: { fixedKey = Keys::U; } break;
+            case 73: { fixedKey = Keys::I; } break;
+            case 79: { fixedKey = Keys::O; } break;
+            case 80: { fixedKey = Keys::P; } break;
+            case 65: { fixedKey = Keys::A; } break;
+            case 83: { fixedKey = Keys::S; } break;
+            case 68: { fixedKey = Keys::D; } break;
+            case 70: { fixedKey = Keys::F; } break;
+            case 71: { fixedKey = Keys::G; } break;
+            case 72: { fixedKey = Keys::H; } break;
+            case 74: { fixedKey = Keys::J; } break;
+            case 75: { fixedKey = Keys::K; } break;
+            case 76: { fixedKey = Keys::L; } break;
+            case 90: { fixedKey = Keys::Z; } break;
+            case 88: { fixedKey = Keys::X; } break;
+            case 67: { fixedKey = Keys::C; } break;
+            case 86: { fixedKey = Keys::V; } break;
+            case 66: { fixedKey = Keys::B; } break;
+            case 78: { fixedKey = Keys::N; } break;
+            case 77: { fixedKey = Keys::M; } break;
+
+            default: { fixedKey = key; } break;
+        }
+
+        // TODO OTHER KEYS
+
+        return fixedKey;
+    }
+
     WindowWin32::WindowWin32(const WindowProps& windowProps)
         : NativeWindow(windowProps) {
         m_windowClass = { };
@@ -12,17 +51,79 @@ namespace wl {
         m_windowClass.style = 0;
 
         m_windowClass.lpfnWndProc = [](HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) -> LRESULT {
+            static EventHandler eventHandler;
+            static unsigned int key;
+
             switch(message) {
                 case WM_CREATE: {
-                    std::cout << "create window\n";
                     ShowWindow(hwnd, 5);
                     UpdateWindow(hwnd);
                 } break;
 
-                case WM_CLOSE: {
-                    std::cout << "close window\n";
+                case WM_DESTROY: {
                     PostQuitMessage(0);
                     DestroyWindow(hwnd);
+                } break;
+
+                case WM_CLOSE: {
+                    eventHandler.Invoke(WindowClosedEvent());
+                    PostQuitMessage(0);
+                    DestroyWindow(hwnd);
+                } break;
+
+                case WM_SIZE: {
+                    eventHandler.Invoke(WindowResizedEvent(LOWORD(lParam), HIWORD(lParam)));
+                } break;
+
+                case WM_MOVE: {
+                    eventHandler.Invoke(WindowMovedEvent(LOWORD(lParam), HIWORD(lParam)));
+                } break;
+
+                case WM_MOUSEWHEEL: {
+                    eventHandler.Invoke(MouseScrolledEvent(((GET_KEYSTATE_WPARAM(wParam) == 16) ? true : false), ((GET_WHEEL_DELTA_WPARAM(wParam) < 0) ? -1 : 1)));
+                } break;
+
+                case WM_MOUSEMOVE: {
+                    eventHandler.Invoke(MouseMovedEvent(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
+                } break;
+
+                case WM_LBUTTONDOWN: {
+                    eventHandler.Invoke(ButtonPressedEvent(Buttons::Left));
+                } break;
+
+                case WM_MBUTTONDOWN: {
+                    eventHandler.Invoke(ButtonPressedEvent(Buttons::Middle));
+                } break;
+
+                case WM_RBUTTONDOWN: {
+                    eventHandler.Invoke(ButtonPressedEvent(Buttons::Right));
+                } break;
+
+                case WM_LBUTTONUP: {
+                    eventHandler.Invoke(ButtonReleasedEvent(Buttons::Left));
+                } break;
+
+                case WM_MBUTTONUP: {
+                    eventHandler.Invoke(ButtonReleasedEvent(Buttons::Middle));
+                } break;
+
+                case WM_RBUTTONUP: {
+                    eventHandler.Invoke(ButtonReleasedEvent(Buttons::Right));
+                } break;
+
+                case WM_KEYDOWN: {
+                    if(key != wParam) {
+                        eventHandler.Invoke(KeyPressedEvent(ConvertWin32KeyToFixedKey(wParam)));
+                    } else {
+                        eventHandler.Invoke(KeyRepeatedEvent(ConvertWin32KeyToFixedKey(wParam)));
+                    }
+
+                    key = wParam;
+                } break;
+
+                case WM_KEYUP: {
+                    key = 0;
+                    eventHandler.Invoke(KeyReleasedEvent(ConvertWin32KeyToFixedKey(wParam)));
                 } break;
 
                 default: {
