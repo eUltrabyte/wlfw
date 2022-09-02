@@ -1,16 +1,17 @@
 ## wlfw
-wlfw is window library framework which plan is to allow developer make window for Windows, Unix ( and Linux ), MacOS, Android and iOS.
+wlfw is window library framework which plan is to allow developer make window for Windows, Unix based systems like Linux and MacOS, Android and iOS.
 
 ### examples
 - [x] Native Window
 - [ ] Multi Windowing
 - [ ] Making Context
-- [ ] Event Handling
+- [x] Event Handling
 
 ### todo
-- [ ] Event Handler
-- [x] Windows Support
-- [ ] Unix Support
+- [x] Event Handler
+- [ ] Event Handler Allow To Change Callbacks From User Code
+- [ ] Win32 Support
+- [ ] Linux Support
 - [ ] MacOS Support
 - [ ] Android Support
 - [ ] iOS Support

@@ -17,7 +17,7 @@ namespace wl {
         MouseMoved = WLFW_BYTE(4),
         ButtonPressed = WLFW_BYTE(5),
         ButtonReleased = WLFW_BYTE(6),
-        KeyPresssed = WLFW_BYTE(7),
+        KeyPressed = WLFW_BYTE(7),
         KeyReleased = WLFW_BYTE(8),
         KeyRepeated = WLFW_BYTE(9),
     };
@@ -32,7 +32,7 @@ namespace wl {
         /// \brief Event Class Constructor
         ///
         ////////////////////////////////////////////////////////////
-        Event(const std::string_view& name, const EventType& eventType) : m_eventType(eventType), m_name(name) { }
+        Event(const std::string_view& name, const EventType& eventType) : m_eventType(eventType), m_name(name), m_data() { }
 
         ////////////////////////////////////////////////////////////
         /// \brief Event Class Destructor
@@ -58,9 +58,16 @@ namespace wl {
         ////////////////////////////////////////////////////////////
         virtual std::string GetFormat() const = 0;
 
+        ////////////////////////////////////////////////////////////
+        /// \brief Get Event Data Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual std::stringstream& GetData() const = 0;
+
     protected:
         EventType m_eventType;
         std::string m_name;
+        std::stringstream m_data;
 
     };
 
@@ -84,6 +91,14 @@ namespace wl {
         ////////////////////////////////////////////////////////////
         virtual std::string GetFormat() const override {
             return GetName();
+        }
+
+        ////////////////////////////////////////////////////////////
+        /// \brief Get Data Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual std::stringstream& GetData() const override {
+            return (std::stringstream&)m_data;
         }
 
     };
@@ -121,6 +136,16 @@ namespace wl {
         ///
         ////////////////////////////////////////////////////////////
         virtual int& GetHeight() { return m_height; }
+
+        ////////////////////////////////////////////////////////////
+        /// \brief Get Data Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual std::stringstream& GetData() const override {
+            std::stringstream& data = (std::stringstream&)m_data;
+            data << m_width << ':' << m_height;
+            return data;
+        }
 
     private:
         int m_width;
@@ -162,6 +187,16 @@ namespace wl {
         ////////////////////////////////////////////////////////////
         virtual int& GetY() { return m_y; }
 
+        ////////////////////////////////////////////////////////////
+        /// \brief Get Data Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual std::stringstream& GetData() const override {
+            std::stringstream& data = (std::stringstream&)m_data;
+            data << m_x << ':' << m_y;
+            return data;
+        }
+
     private:
         int m_x;
         int m_y;
@@ -201,6 +236,16 @@ namespace wl {
         ///
         ////////////////////////////////////////////////////////////
         virtual int& GetDirection() { return m_direction; }
+
+        ////////////////////////////////////////////////////////////
+        /// \brief Get Data Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual std::stringstream& GetData() const override {
+            std::stringstream& data = (std::stringstream&)m_data;
+            data << m_pressed << ':' << m_direction;
+            return data;
+        }
 
     private:
         bool m_pressed;
@@ -242,6 +287,16 @@ namespace wl {
         ////////////////////////////////////////////////////////////
         virtual int& GetY() { return m_y; }
 
+        ////////////////////////////////////////////////////////////
+        /// \brief Get Data Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual std::stringstream& GetData() const override {
+            std::stringstream& data = (std::stringstream&)m_data;
+            data << m_x << ':' << m_y;
+            return data;
+        }
+
     private:
         int m_x;
         int m_y;
@@ -282,6 +337,16 @@ namespace wl {
         ////////////////////////////////////////////////////////////
         virtual int& GetButton() { return m_button; }
 
+        ////////////////////////////////////////////////////////////
+        /// \brief Get Data Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual std::stringstream& GetData() const override {
+            std::stringstream& data = (std::stringstream&)m_data;
+            data << m_button;
+            return data;
+        }
+
     private:
         int m_button;
 
@@ -314,6 +379,16 @@ namespace wl {
         ///
         ////////////////////////////////////////////////////////////
         virtual int& GetButton() { return m_button; }
+
+        ////////////////////////////////////////////////////////////
+        /// \brief Get Data Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual std::stringstream& GetData() const override {
+            std::stringstream& data = (std::stringstream&)m_data;
+            data << m_button;
+            return data;
+        }
 
     private:
         int m_button;
@@ -357,7 +432,7 @@ namespace wl {
         /// \brief Key Pressed Event Class Constructor
         ///
         ////////////////////////////////////////////////////////////
-        KeyPressedEvent(int key = 0) : Event("Key Pressed Event", EventType::KeyPresssed), m_key(key) { }
+        KeyPressedEvent(int key = 0) : Event("Key Pressed Event", EventType::KeyPressed), m_key(key) { }
         
         ////////////////////////////////////////////////////////////
         /// \brief Key Pressed Event Class Destructor
@@ -378,6 +453,16 @@ namespace wl {
         ///
         ////////////////////////////////////////////////////////////
         virtual int& GetKey() { return m_key; }
+
+        ////////////////////////////////////////////////////////////
+        /// \brief Get Data Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual std::stringstream& GetData() const override {
+            std::stringstream& data = (std::stringstream&)m_data;
+            data << m_key;
+            return data;
+        }
 
     private:
         int m_key;
@@ -412,6 +497,16 @@ namespace wl {
         ////////////////////////////////////////////////////////////
         virtual int& GetKey() { return m_key; }
 
+        ////////////////////////////////////////////////////////////
+        /// \brief Get Data Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual std::stringstream& GetData() const override {
+            std::stringstream& data = (std::stringstream&)m_data;
+            data << m_key;
+            return data;
+        }
+
     private:
         int m_key;
 
@@ -444,6 +539,16 @@ namespace wl {
         ///
         ////////////////////////////////////////////////////////////
         virtual int& GetKey() { return m_key; }
+
+        ////////////////////////////////////////////////////////////
+        /// \brief Get Data Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual std::stringstream& GetData() const override {
+            std::stringstream& data = (std::stringstream&)m_data;
+            data << m_key;
+            return data;
+        }
 
     private:
         int m_key;

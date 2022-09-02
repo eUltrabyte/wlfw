@@ -2,10 +2,6 @@
 
 auto main(int argc, char** argv) -> int {
     wl::Window window(wl::WindowProps("wlfw window example", 1280, 720, wl::Style::Default));
-    std::cout << window.GetWindowProps()->GetTitle() << '\n';
-    std::cout << window.GetWindowProps()->GetWidth() << '\n';
-    std::cout << window.GetWindowProps()->GetHeight() << '\n';
-    std::cout << window.GetWindowProps()->GetStyle() << '\n';
 
     for(;;) {
         window.Update();
