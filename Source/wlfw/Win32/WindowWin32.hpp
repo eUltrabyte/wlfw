@@ -5,6 +5,12 @@
 #include "../NativeWindow.hpp"
 
 namespace wl {
+    ////////////////////////////////////////////////////////////
+    /// \brief Function Which Convert Winapi Key Numbers To wl::Keys Enum Variables
+    ///
+    ////////////////////////////////////////////////////////////
+    extern int WLFW_API ConvertWin32KeyToFixedKey(int key);
+
     class WLFW_API WindowWin32 : public NativeWindow {
     public:
         ////////////////////////////////////////////////////////////
@@ -26,21 +32,40 @@ namespace wl {
         virtual void Update();
 
         ////////////////////////////////////////////////////////////
-        /// \brief WindowWin32 GetHWND Function
+        /// \brief WindowWin32 Set Event Handler Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual void SetEventHandler(const EventHandler& handler);
+
+        ////////////////////////////////////////////////////////////
+        /// \brief WindowWin32 Get Window Proc Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual LRESULT GetWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+
+        ////////////////////////////////////////////////////////////
+        /// \brief WindowWin32 Get HWND Function
         ///
         ////////////////////////////////////////////////////////////
         virtual HWND& GetHWND();
 
         ////////////////////////////////////////////////////////////
-        /// \brief WindowWin32 GetHINSTANCE Function
+        /// \brief WindowWin32 Get HINSTANCE Function
         ///
         ////////////////////////////////////////////////////////////
         virtual HINSTANCE& GetHINSTANCE();
 
+        ////////////////////////////////////////////////////////////
+        /// \brief WindowWin32 Get Event Handler Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual EventHandler& GetEventHandler();
+
     private:
         WNDCLASS m_windowClass;
-        HWND m_hwnd;
         HINSTANCE m_hinstance;
+        HWND m_hwnd;
+        EventHandler m_handler;
 
     };
 

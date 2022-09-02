@@ -10,8 +10,7 @@ wlfw is window library framework which plan is to allow developer make window fo
 
 ### todo
 - [x] Event Handler
-- [ ] Event Handler Allow To Change Callbacks From User Code
-- [ ] Win32 Support
+- [x] Win32 Support
 - [ ] Linux Support
 - [ ] MacOS Support
 - [ ] Android Support
