@@ -1,4 +1,7 @@
 ![wlfw logo](https://github.com/eUltrabyte/wlfw/blob/dev/wlfw.png?raw=true "wlfw logo")
+
+[![Standard](https://img.shields.io/badge/c%2B%2B-20-blue.svg)](https://en.wikipedia.org/wiki/C%2B%2B#Standardization)
+[![License](https://img.shields.io/github/license/eUltrabyte/wlfw)](https://github.com/eUltrabyte/wlfw/blob/main/LICENSE)
 [![Pull Requests](https://img.shields.io/github/issues-pr/eUltrabyte/wlfw)](https://github.com/eUltrabyte/wlfw/pulls)
 [![Forks](https://img.shields.io/github/forks/eUltrabyte/wlfw?style=social)](https://github.com/eUltrabyte/wlfw)
 
