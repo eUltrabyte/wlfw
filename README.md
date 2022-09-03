@@ -1,4 +1,6 @@
 ![wlfw logo](https://github.com/eUltrabyte/wlfw/blob/dev/wlfw.png?raw=true "wlfw logo")
+[![Pull Requests](https://img.shields.io/github/issues-pr/eUltrabyte/wlfw)](https://github.com/eUltrabyte/wlfw/pulls)
+[![Forks](https://img.shields.io/github/forks/eUltrabyte/wlfw?style=social)](https://github.com/eUltrabyte/wlfw)
 
 wlfw is window library framework which plan is to allow developer make window for Windows, Unix based systems like Linux and MacOS, Android and iOS.
 
