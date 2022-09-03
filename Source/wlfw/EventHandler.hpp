@@ -37,6 +37,14 @@ namespace wl {
                 std::cout << "Window Moved Event : " << x << " : " << y << '\n'; 
             };
 
+            m_windowGainedFocusEventCallback = []() {
+                std::cout << "Window Gained Focus Event" << '\n';
+            };
+
+            m_windowLostFocusEventCallback = []() {
+                std::cout << "Window Lost Focus Event" << '\n';
+            };
+
             m_mouseScrolledEventCallback = [](std::stringstream& data) {
                 char junk = '0';
                 bool pressed = false;
@@ -100,6 +108,8 @@ namespace wl {
                 case EventType::WindowClosed: { m_windowClosedEventCallback(); } break;
                 case EventType::WindowResized: { m_windowResizedEventCallback(event.GetData()); } break;
                 case EventType::WindowMoved: { m_windowMovedEventCallback(event.GetData()); } break;
+                case EventType::WindowGainedFocus: { m_windowGainedFocusEventCallback(); } break;
+                case EventType::WindowLostFocus: { m_windowLostFocusEventCallback(); } break;
                 case EventType::MouseScrolled: { m_mouseScrolledEventCallback(event.GetData()); } break;
                 case EventType::MouseMoved: { m_mouseMovedEventCallback(event.GetData()); } break;
                 case EventType::ButtonPressed: { m_buttonPressedEventCallback(event.GetData()); } break;
@@ -132,6 +142,22 @@ namespace wl {
         ////////////////////////////////////////////////////////////
         virtual void SetWindowMovedCallback(const std::function<void(std::stringstream&)>& windowMovedCallback) {
             m_windowMovedEventCallback = windowMovedCallback;
+        }
+
+        ////////////////////////////////////////////////////////////
+        /// \brief Event Handler Set Window Gained Focus Event Callback Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual void SetWindowGainedFocusCallback(const std::function<void()>& windowGainedFocusCallback) {
+            m_windowGainedFocusEventCallback = windowGainedFocusCallback;
+        }
+
+        ////////////////////////////////////////////////////////////
+        /// \brief Event Handler Set Window Lost Focus Event Callback Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual void SetWindowLostFocusCallback(const std::function<void()>& windowLostFocusCallback) {
+            m_windowLostFocusEventCallback = windowLostFocusCallback;
         }
 
         ////////////////////////////////////////////////////////////
@@ -215,6 +241,22 @@ namespace wl {
         }
 
         ////////////////////////////////////////////////////////////
+        /// \brief Event Handler Get Window Gained Focus Event Callback Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual std::function<void()>& GetWindowGainedFocusCallback() {
+            return m_windowGainedFocusEventCallback;
+        }
+
+        ////////////////////////////////////////////////////////////
+        /// \brief Event Handler Get Window Lost Focus Event Callback Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual std::function<void()>& GetWindowLostFocusCallback() {
+            return m_windowLostFocusEventCallback;
+        }
+
+        ////////////////////////////////////////////////////////////
         /// \brief Event Handler Get Mouse Scrolled Event Callback Function
         ///
         ////////////////////////////////////////////////////////////
@@ -274,6 +316,8 @@ namespace wl {
         std::function<void()> m_windowClosedEventCallback;
         std::function<void(std::stringstream&)> m_windowResizedEventCallback;
         std::function<void(std::stringstream&)> m_windowMovedEventCallback;
+        std::function<void()> m_windowGainedFocusEventCallback;
+        std::function<void()> m_windowLostFocusEventCallback;
         std::function<void(std::stringstream&)> m_mouseScrolledEventCallback;
         std::function<void(std::stringstream&)> m_mouseMovedEventCallback;
         std::function<void(std::stringstream&)> m_buttonPressedEventCallback;

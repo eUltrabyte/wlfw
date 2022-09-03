@@ -190,6 +190,14 @@ namespace wl {
                 m_handler.Invoke(WindowMovedEvent(LOWORD(lParam), HIWORD(lParam)));
             } break;
 
+            case WM_SETFOCUS: {
+                m_handler.Invoke(WindowGainedFocusEvent());
+            } break;
+
+            case WM_KILLFOCUS: {
+                m_handler.Invoke(WindowLostFocusEvent());
+            } break;
+
             case WM_MOUSEWHEEL: {
                 m_handler.Invoke(MouseScrolledEvent(((GET_KEYSTATE_WPARAM(wParam) == 16) ? true : false), ((GET_WHEEL_DELTA_WPARAM(wParam) < 0) ? -1 : 1)));
             } break;

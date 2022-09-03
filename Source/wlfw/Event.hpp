@@ -13,13 +13,15 @@ namespace wl {
         WindowClosed = WLFW_BYTE(0),
         WindowResized = WLFW_BYTE(1),
         WindowMoved = WLFW_BYTE(2),
-        MouseScrolled = WLFW_BYTE(3),
-        MouseMoved = WLFW_BYTE(4),
-        ButtonPressed = WLFW_BYTE(5),
-        ButtonReleased = WLFW_BYTE(6),
-        KeyPressed = WLFW_BYTE(7),
-        KeyReleased = WLFW_BYTE(8),
-        KeyRepeated = WLFW_BYTE(9),
+        WindowGainedFocus = WLFW_BYTE(3),
+        WindowLostFocus = WLFW_BYTE(4),
+        MouseScrolled = WLFW_BYTE(5),
+        MouseMoved = WLFW_BYTE(6),
+        ButtonPressed = WLFW_BYTE(7),
+        ButtonReleased = WLFW_BYTE(8),
+        KeyPressed = WLFW_BYTE(9),
+        KeyReleased = WLFW_BYTE(10),
+        KeyRepeated = WLFW_BYTE(11),
     };
 
     ////////////////////////////////////////////////////////////
@@ -200,6 +202,70 @@ namespace wl {
     private:
         int m_x;
         int m_y;
+
+    };
+
+    class WLFW_API WindowGainedFocusEvent : public Event {
+    public:
+        ////////////////////////////////////////////////////////////
+        /// \brief Window Gained Focus Event Class Constructor
+        ///
+        ////////////////////////////////////////////////////////////
+        WindowGainedFocusEvent() : Event("Window Gained Focus Event", EventType::WindowGainedFocus) { }
+
+        ////////////////////////////////////////////////////////////
+        /// \brief Window Gained Focus Event Class Destructor
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual ~WindowGainedFocusEvent() = default;
+
+        ////////////////////////////////////////////////////////////
+        /// \brief Get Format Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual std::string GetFormat() const override {
+            return GetName();
+        }
+
+        ////////////////////////////////////////////////////////////
+        /// \brief Get Data Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual std::stringstream& GetData() const override {
+            return (std::stringstream&)m_data;
+        }
+
+    };
+
+    class WLFW_API WindowLostFocusEvent : public Event {
+    public:
+        ////////////////////////////////////////////////////////////
+        /// \brief Window Lost Focus Event Class Constructor
+        ///
+        ////////////////////////////////////////////////////////////
+        WindowLostFocusEvent() : Event("Window Lost Focus Event", EventType::WindowLostFocus) { }
+
+        ////////////////////////////////////////////////////////////
+        /// \brief Window Lost Focus Event Class Destructor
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual ~WindowLostFocusEvent() = default;
+
+        ////////////////////////////////////////////////////////////
+        /// \brief Get Format Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual std::string GetFormat() const override {
+            return GetName();
+        }
+
+        ////////////////////////////////////////////////////////////
+        /// \brief Get Data Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual std::stringstream& GetData() const override {
+            return (std::stringstream&)m_data;
+        }
 
     };
 
