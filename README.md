@@ -4,9 +4,11 @@ wlfw is window library framework which plan is to allow developer make window fo
 
 ### examples
 - [x] Native Window
-- [ ] Multi Windowing
-- [ ] Making Context
-- [x] Event Handling
+- [x] Multi Windowing
+- [ ] Making Context For Vulkan
+- [ ] Making Context For OpenGL
+- [ ] Making Context For Native Rendering API
+- [ ] Event Handling
 
 ### todo
 - [x] Event Handler
