@@ -22,6 +22,10 @@
     #define WLFW_API
 #endif
 
+////////////////////////////////////////////////////////////
+/// \brief WLFW_BYTE Is Define Which Will Move Your Value
+///
+////////////////////////////////////////////////////////////
 #define WLFW_BYTE(value) (1 << value)
 
 #ifdef WLFW_WINDOW_PLATFORM_WIN32
@@ -41,27 +45,23 @@
 #endif
 
 #ifdef WLFW_DEBUG
-    #define WLFW_TRACE() { std::cerr << "wlfw trace : " << __FILE__ << " : " << __LINE__ << " : " << __FUNCTION__; }
+    ////////////////////////////////////////////////////////////
+    /// \brief WLFW_TRACE Is Define Which Will Trace Your Errors In Code
+    ///
+    ////////////////////////////////////////////////////////////
+    #define WLFW_TRACE() { std::cerr << "wlfw trace : " << __FILE__ << " : " << __LINE__ << " : " << __FUNCTION__ << '\n'; }
 #else
+    ////////////////////////////////////////////////////////////
+    /// \brief WLFW_TRACE Is Not Used
+    ///
+    ////////////////////////////////////////////////////////////
     #define WLFW_TRACE()
 #endif
 
-#define WLFW_CHECK(value) if(value < 0) { WLFW_TRACE(); }
-
-#ifdef WLFW_WINDOW_PLATFORM_WIN32
-    #include "Win32/WindowWin32.hpp"
-    
-    namespace wl {
-        using Window = WindowWin32;
-    };
-#else
-    #ifdef WLFW_UNIX_WINDOW_PLATFORM_X11
-        // TODO
-    #elif WLFW_UNIX_WINDOW_PLATFORM_XCB
-        // TODO
-    #elif WLFW_UNIX_WINDOW_PLATFORM_WAYLAND
-        // TODO
-    #endif
-#endif
+////////////////////////////////////////////////////////////
+/// \brief WLFW_CHECK Is Define Which Execute WLFW_TRACE If Your Entered Value Is Invalid
+///
+////////////////////////////////////////////////////////////
+#define WLFW_CHECK(value) if(!value) { WLFW_TRACE(); }
 
 #endif

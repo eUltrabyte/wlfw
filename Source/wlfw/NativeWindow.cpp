@@ -1,4 +1,4 @@
-#include "Window.hpp"
+#include "NativeWindow.hpp"
 
 namespace wl {
     NativeWindow::NativeWindow(const WindowProps& windowProps) {
