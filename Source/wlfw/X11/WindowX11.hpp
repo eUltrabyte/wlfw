@@ -62,5 +62,6 @@ namespace wl {
     };
 
     using Window = WindowX11;
+};
 
 #endif
