@@ -26,7 +26,7 @@ namespace wl {
         XNextEvent(m_display, &m_event);
         switch(m_event.type) {
             case ResizeRequest: {
-                static XResizeRequestEvent& resizeRequestEvent = (XResizeRequestEvent&)event;
+                static XResizeRequestEvent& resizeRequestEvent = (XResizeRequestEvent&)m_event;
                 m_handler.Invoke(WindowResizedEvent(resizeRequestEvent.width, resizeRequestEvent.height));
             } break;
 
@@ -71,6 +71,10 @@ namespace wl {
                 }
             } break;
         }
+    }
+
+    void WindowX11::SetEventHandler(const EventHandler& handler) {
+        m_handler = handler;
     }
 
     Display*& WindowX11::GetDisplay() {
