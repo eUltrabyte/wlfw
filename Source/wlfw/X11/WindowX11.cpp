@@ -11,7 +11,7 @@ namespace wl {
         m_display = XOpenDisplay(nullptr);
         m_window = XCreateSimpleWindow(m_display, RootWindow(m_display, DefaultScreen(m_display)), 0, 0, GetWindowProps()->GetWidth(), GetWindowProps()->GetHeight(), 0, 0, 0);
         XStoreName(m_display, m_window, GetWindowProps()->GetTitle().c_str());
-        XSelectInput(m_display, m_window, ExposureMask | ResizeRequestMask | ButtonPressMask | ButtonReleaseMask | KeyPressMask | KeyReleaseMask);
+        XSelectInput(m_display, m_window, ExposureMask | ResizeRedirectMask | ButtonPressMask | ButtonReleaseMask | KeyPressMask | KeyReleaseMask);
         XMapWindow(m_display, m_window);
     }
 
