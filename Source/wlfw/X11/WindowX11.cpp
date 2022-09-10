@@ -11,7 +11,7 @@ namespace wl {
         m_display = XOpenDisplay(nullptr);
         m_window = XCreateSimpleWindow(m_display, RootWindow(m_display, DefaultScreen(m_display)), 0, 0, GetWindowProps()->GetWidth(), GetWindowProps()->GetHeight(), 0, 0, 0);
         XStoreName(m_display, m_window, GetWindowProps()->GetTitle().c_str());
-        XSelectInput(m_display, m_window, ExposureMask | ResizeRedirectMask | ButtonPressMask | ButtonReleaseMask | KeyPressMask | KeyReleaseMask);
+        XSelectInput(m_display, m_window, ExposureMask | FocusChangeMask | ResizeRedirectMask | PointerMotionMask | ButtonPressMask | ButtonReleaseMask | KeyPressMask | KeyReleaseMask);
         XMapWindow(m_display, m_window);
     }
 
@@ -25,12 +25,27 @@ namespace wl {
 
         XNextEvent(m_display, &m_event);
         switch(m_event.type) {
+            // Close Event
+        
             case ResizeRequest: {
-                static XResizeRequestEvent& resizeRequestEvent = (XResizeRequestEvent&)m_event;
+                XResizeRequestEvent& resizeRequestEvent = (XResizeRequestEvent&)m_event;
                 m_handler.Invoke(WindowResizedEvent(resizeRequestEvent.width, resizeRequestEvent.height));
             } break;
 
-            // TODO EVENT WINDOW CLOSE, CURSOR MOVE AND MOUSE SCROLLED
+            // Move Event
+        
+            case FocusIn: {
+                m_handler.Invoke(WindowGainedFocusEvent());
+            } break;
+        
+            case FocusOut: {
+                m_handler.Invoke(WindowLostFocusEvent());
+            } break;
+        
+            case MotionNotify: {
+                XMotionEvent& motionEvent = (XMotionEvent&)m_event;
+                m_handler.Invoke(MouseMovedEvent(motionEvent.x, motionEvent.y));
+            } break;
 
             case KeyPress: {
                 if(key != m_event.xkey.keycode) {
@@ -81,7 +96,7 @@ namespace wl {
         return m_display;
     }
     
-    Window& WindowX11::GetHINSTANCE() {
+    ::Window& WindowX11::GetWindow() {
         return m_window;
     }
 
