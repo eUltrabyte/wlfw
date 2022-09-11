@@ -12,17 +12,19 @@ namespace wl {
         const xcb_setup_t* setup = xcb_get_setup(m_connection);
         xcb_screen_iterator_t screenIterator = xcb_setup_roots_iterator(setup);
         xcb_screen_t* screen = screenIterator.data;
-
-        unsigned int flags[2] = { screen->black_pixel, XCB_EVENT_MASK_BUTTON_PRESS | XCB_EVENT_MASK_BUTTON_RELEASE | XCB_EVENT_MASK_POINTER_MOTION | XCB_EVENT_MASK_ENTER_WINDOW | XCB_EVENT_MASK_LEAVE_WINDOW | XCB_EVENT_MASK_KEY_PRESS | XCB_EVENT_MASK_KEY_RELEASE };
+        m_window = screen->root;    
+    
+        unsigned int flags[2] = { screen->black_pixel, XCB_EVENT_MASK_EXPOSURE | XCB_EVENT_MASK_BUTTON_PRESS | XCB_EVENT_MASK_BUTTON_RELEASE | XCB_EVENT_MASK_POINTER_MOTION | XCB_EVENT_MASK_ENTER_WINDOW | XCB_EVENT_MASK_LEAVE_WINDOW | XCB_EVENT_MASK_KEY_PRESS | XCB_EVENT_MASK_KEY_RELEASE };
 
         m_window = xcb_generate_id(m_connection);
-        xcb_create_window(m_connection, XCB_COPY_FROM_PARENT, m_window, screen->root, 0, 0, GetWindowProps()->GetWidth(), GetWindowProps()->GetHeight(), 10, XCB_WINDOW_CLASS_INPUT_OUTPUT, screen->root_visual, XCB_CW_EVENT_MASK, flags);
+        xcb_create_window(m_connection, XCB_COPY_FROM_PARENT, m_window, screen->root, 0, 0, GetWindowProps()->GetWidth(), GetWindowProps()->GetHeight(), 10, XCB_WINDOW_CLASS_INPUT_OUTPUT, screen->root_visual, XCB_CW_BACK_PIXEL |XCB_CW_EVENT_MASK, flags);
         xcb_change_property(m_connection, XCB_PROP_MODE_REPLACE, m_window, XCB_ATOM_WM_NAME, XCB_ATOM_STRING, 8, GetWindowProps()->GetTitle().size(), GetWindowProps()->GetTitle().data());
         xcb_map_window(m_connection, m_window);
         xcb_flush(m_connection);
     }
 
     WindowXCB::~WindowXCB() {
+        xcb_destroy_window(m_connection, m_window);
         xcb_disconnect(m_connection);
     }
 
@@ -30,7 +32,7 @@ namespace wl {
         static unsigned int key;
 
         m_event = xcb_wait_for_event(m_connection);
-        switch(event->response_type & ~0x80) {
+        switch(m_event->response_type & ~0x80) {
             // Window Closed
 
             // Window Resized
@@ -59,10 +61,10 @@ namespace wl {
             case XCB_BUTTON_RELEASE: {
                 xcb_button_release_event_t& buttonReleaseEvent = (xcb_button_release_event_t&)m_event;
                 
-                switch(buttonPressEvent.detail) {
+                switch(buttonReleaseEvent.detail) {
                     case 4: { m_handler.Invoke(MouseScrolledEvent(false, 1)); } break;
                     case 5: { m_handler.Invoke(MouseScrolledEvent(false, -1)); } break;
-                    default: { m_handler.Invoke(ButtonReleasedEvent(buttonPressEvent.detail)); } break;
+                    default: { m_handler.Invoke(ButtonReleasedEvent(buttonReleaseEvent.detail)); } break;
                 }
             } break;
 
@@ -84,6 +86,8 @@ namespace wl {
                 m_handler.Invoke(KeyReleasedEvent(keyReleaseEvent.detail));
             } break;
         }
+    
+        free(m_event);
     }
 
     void WindowXCB::SetEventHandler(const EventHandler& handler) {
