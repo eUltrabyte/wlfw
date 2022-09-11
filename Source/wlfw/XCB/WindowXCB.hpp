@@ -56,6 +56,7 @@ namespace wl {
     private:
         xcb_connection_t* m_connection;
         xcb_window_t m_window;
+        xcb_generic_event_t* m_event;
         EventHandler m_handler;
 
     };
