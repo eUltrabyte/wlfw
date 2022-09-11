@@ -32,6 +32,10 @@ if(UNIX)
         message("-- Using XCB")
         find_package(X11 REQUIRED)
 
+        set(WLFW_PLATFORM_SOURCE
+            Source/wlfw/XCB/WindowXCB.hpp
+            Source/wlfw/XCB/WindowXCB.cpp
+        )
     elseif(WLFW_UNIX_WINDOW_PLATFORM STREQUAL "Wayland")
         message("-- Using Wayland")
         find_package(Wayland COMPONENTS Client Server REQUIRED)

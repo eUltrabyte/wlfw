@@ -50,8 +50,6 @@ namespace wl {
                 m_handler.Invoke(WindowLostFocusEvent());
             } break;
 
-            // Mouse Scrolled Event
-        
             case MotionNotify: {
                 XMotionEvent& motionEvent = (XMotionEvent&)m_event;
                 m_handler.Invoke(MouseMovedEvent(motionEvent.x, motionEvent.y));

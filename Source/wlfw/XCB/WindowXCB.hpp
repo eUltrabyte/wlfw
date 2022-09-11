@@ -1,67 +1,66 @@
 #pragma once
-#ifndef WLFW_WINDOW_X11_HEADER
-#define WLFW_WINDOW_X11_HEADER
+#ifndef WLFW_WINDOW_XCB_HEADER
+#define WLFW_WINDOW_XCB_HEADER
 
 #include "../NativeWindow.hpp"
 
 namespace wl {
     ////////////////////////////////////////////////////////////
-    /// \brief Window X11 Class
+    /// \brief Window XCB Class
     ///
     ////////////////////////////////////////////////////////////
-    class WLFW_API WindowX11 : public NativeWindow {
+    class WLFW_API WindowXCB : public NativeWindow {
     public:
         ////////////////////////////////////////////////////////////
-        /// \brief WindowX11 Constructor
+        /// \brief WindowXCB Constructor
         ///
         ////////////////////////////////////////////////////////////
-        WindowX11(const WindowProps& windowProps = WindowProps());
+        WindowXCB(const WindowProps& windowProps = WindowProps());
 
         ////////////////////////////////////////////////////////////
-        /// \brief WindowX11 Destructor
+        /// \brief WindowXCB Destructor
         ///
         ////////////////////////////////////////////////////////////
-        virtual ~WindowX11();
+        virtual ~WindowXCB();
 
         ////////////////////////////////////////////////////////////
-        /// \brief WindowX11 Update Function
+        /// \brief WindowXCB Update Function
         ///
         ////////////////////////////////////////////////////////////
         virtual void Update();
 
         ////////////////////////////////////////////////////////////
-        /// \brief WindowX11 Set Event Handler Function
+        /// \brief WindowXCB Set Event Handler Function
         ///
         ////////////////////////////////////////////////////////////
         virtual void SetEventHandler(const EventHandler& handler);
 
         ////////////////////////////////////////////////////////////
-        /// \brief WindowX11 Get Display Function
+        /// \brief WindowXCB Get Connection Function
         ///
         ////////////////////////////////////////////////////////////
-        virtual Display*& GetDisplay();
+        virtual xcb_connection_t*& GetConnection();
 
         ////////////////////////////////////////////////////////////
-        /// \brief WindowX11 Get Window Function
+        /// \brief WindowXCB Get Window Function
         ///
         ////////////////////////////////////////////////////////////
-        virtual Window& GetWindow();
+        virtual xcb_window_t& GetWindow();
 
         ////////////////////////////////////////////////////////////
-        /// \brief WindowX11 Get Event Handler Function
+        /// \brief WindowXCB Get Event Handler Function
         ///
         ////////////////////////////////////////////////////////////
         virtual EventHandler& GetEventHandler();
 
     private:
-        Display* m_display;
-        ::Window m_window;
-        XEvent m_event;
+        xcb_connection_t* m_connection;
+        xcb_window_t m_window;
         EventHandler m_handler;
 
     };
 
-    using Window = WindowX11;
+    using Window = WindowXCB;
 };
 
 #endif
