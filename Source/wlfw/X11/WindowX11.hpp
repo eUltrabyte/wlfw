@@ -57,6 +57,7 @@ namespace wl {
         Display* m_display;
         ::Window m_window;
         XEvent m_event;
+        Atom m_wmDeleteMessage;
         EventHandler m_handler;
 
     };

@@ -12,6 +12,10 @@ namespace wl {
         m_window = XCreateSimpleWindow(m_display, RootWindow(m_display, DefaultScreen(m_display)), 0, 0, GetWindowProps()->GetWidth(), GetWindowProps()->GetHeight(), 0, 0, 0);
         XStoreName(m_display, m_window, GetWindowProps()->GetTitle().c_str());
         XSelectInput(m_display, m_window, ExposureMask | ResizeRedirectMask | FocusChangeMask | StructureNotifyMask | PointerMotionMask | ButtonPressMask | ButtonReleaseMask | KeyPressMask | KeyReleaseMask);
+        
+        m_wmDeleteMessage = XInternAtom(m_display, "WM_DELETE_WINDOW", false);
+        XSetWMProtocols(m_display, m_window, &m_wmDeleteMessage, 1);
+
         XMapWindow(m_display, m_window);
     }
 
@@ -26,8 +30,7 @@ namespace wl {
         XNextEvent(m_display, &m_event);
         switch(m_event.type) {
             case ClientMessage: {
-                XClientMessageEvent& clientMessageEvent = (XClientMessageEvent&)m_event;
-                if(clientMessageEvent.xclient.data.l[0] == wmDeleteMessage) {
+                if(m_event.xclient.data.l[0] == m_wmDeleteMessage) {
                     m_handler.Invoke(WindowClosedEvent());
                 }
             } break;

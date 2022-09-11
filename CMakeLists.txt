@@ -15,7 +15,7 @@ set(WLFW_SOURCE
     Source/wlfw/EventHandler.hpp
 )
 
-set(WLFW_UNIX_WINDOW_PLATFORM X11)
+set(WLFW_UNIX_WINDOW_PLATFORM XCB)
 if(UNIX)
     set(THREADS_PREFER_PTHREAD_FLAG ON)
     find_package(Threads REQUIRED)

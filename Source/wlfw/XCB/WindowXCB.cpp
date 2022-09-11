@@ -8,7 +8,7 @@ namespace wl {
         m_handler = { };
 
         m_connection = xcb_connect(0, 0);
-        xcb_setup_t* setup = xcb_get_setup(m_connection);
+        const xcb_setup_t* setup = xcb_get_setup(m_connection);
         xcb_screen_iterator_t screenIterator = xcb_setup_roots_iterator(setup);
         xcb_screen_t* screen = screenIterator.data;
 
