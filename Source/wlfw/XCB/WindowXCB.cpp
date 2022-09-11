@@ -6,8 +6,8 @@ namespace wl {
         m_connection = nullptr;
         m_window = { };
         m_event = nullptr;
-        m_handler = { };
         m_wmDeleteWindow = nullptr;
+        m_handler = { };
  
         m_connection = xcb_connect(0, 0);
         xcb_screen_t* screen = xcb_setup_roots_iterator(xcb_get_setup(m_connection)).data;
@@ -16,6 +16,8 @@ namespace wl {
  
         m_window = xcb_generate_id(m_connection);
         xcb_void_cookie_t cookie = xcb_create_window(m_connection, XCB_COPY_FROM_PARENT, m_window, screen->root, 0, 0, GetWindowProps()->GetWidth(), GetWindowProps()->GetHeight(), 0, XCB_WINDOW_CLASS_INPUT_OUTPUT, screen->root_visual, XCB_CW_BACK_PIXEL | XCB_CW_EVENT_MASK, flags);
+        WLFW_CHECK(m_window);
+        
         xcb_change_property(m_connection, XCB_PROP_MODE_REPLACE, m_window, XCB_ATOM_WM_NAME, XCB_ATOM_STRING, 8, GetWindowProps()->GetTitle().size(), GetWindowProps()->GetTitle().data());
  
         xcb_intern_atom_cookie_t atomCookieProtocols = xcb_intern_atom(m_connection, 1, 12, "WM_PROTOCOLS");

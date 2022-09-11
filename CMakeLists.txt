@@ -40,6 +40,10 @@ if(UNIX)
         message("-- Using Wayland")
         find_package(Wayland COMPONENTS Client Server REQUIRED)
 
+        set(WLFW_PLATFORM_SOURCE
+            Source/wlfw/Wayland/WindowWayland.hpp
+            Source/wlfw/Wayland/WindowWayland.cpp
+        )
     endif()
 else()
     message("-- Using Win32")

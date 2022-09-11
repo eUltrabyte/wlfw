@@ -1,0 +1,69 @@
+#pragma once
+#ifndef WLFW_WINDOW_WAYLAND_HEADER
+#define WLFW_WINDOW_WAYLAND_HEADER
+
+#include "../NativeWindow.hpp"
+
+namespace wl {
+    ////////////////////////////////////////////////////////////
+    /// \brief Window Wayland Class
+    ///
+    ////////////////////////////////////////////////////////////
+    class WLFW_API WindowWayland : public NativeWindow {
+    public:
+        ////////////////////////////////////////////////////////////
+        /// \brief WindowWayland Constructor
+        ///
+        ////////////////////////////////////////////////////////////
+        WindowWayland(const WindowProps& windowProps = WindowProps());
+
+        ////////////////////////////////////////////////////////////
+        /// \brief WindowWayland Destructor
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual ~WindowWayland();
+
+        ////////////////////////////////////////////////////////////
+        /// \brief WindowWayland Update Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual void Update();
+
+        ////////////////////////////////////////////////////////////
+        /// \brief WindowWayland Set Event Handler Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual void SetEventHandler(const EventHandler& handler);
+
+        ////////////////////////////////////////////////////////////
+        /// \brief WindowWayland Get Display Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual wl_display*& GetDisplay();
+
+        ////////////////////////////////////////////////////////////
+        /// \brief WindowWayland Get Compositor Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual wl_compositor*& GetCompositor();
+
+        ////////////////////////////////////////////////////////////
+        /// \brief WindowWayland Get Event Handler Function
+        ///
+        ////////////////////////////////////////////////////////////
+        virtual EventHandler& GetEventHandler();
+
+    private:
+        wl_display* m_display;
+        wl_compositor* m_compositor;
+        wl_surface* m_surface;
+        wl_shell* m_shell;
+        wl_shell_surface* m_shellSurface;
+        EventHandler m_handler;
+
+    };
+
+    using Window = WindowWayland;
+};
+
+#endif
