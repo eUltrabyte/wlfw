@@ -42,7 +42,7 @@ namespace wl {
 
             case ConfigureNotify: {
                 XConfigureEvent& configureEvent = (XConfigureEvent&)m_event;
-                m_handler.Invoke(WindowMovedEvent(configureEvent.width, configureEvent.height));
+                m_handler.Invoke(WindowMovedEvent(configureEvent.x, configureEvent.y));
             } break;
         
             case FocusIn: {
