@@ -183,6 +183,8 @@ namespace wl {
             } break;
 
             case WM_SIZE: {
+                GetWindowProps()->SetWidth(LOWORD(lParam));
+                GetWindowProps()->SetHeight(HIWORD(lParam));
                 m_handler.Invoke(WindowResizedEvent(LOWORD(lParam), HIWORD(lParam)));
             } break;
 

@@ -34,14 +34,15 @@ namespace wl {
                     m_handler.Invoke(WindowClosedEvent());
                 }
             } break;
-        
-            case ResizeRequest: {
-                XResizeRequestEvent& resizeRequestEvent = (XResizeRequestEvent&)m_event;
-                m_handler.Invoke(WindowResizedEvent(resizeRequestEvent.width, resizeRequestEvent.height));
-            } break;
-
+            
             case ConfigureNotify: {
                 XConfigureEvent& configureEvent = (XConfigureEvent&)m_event;
+                if(configureEvent.width != GetWindowProps()->GetWidth() || configureEvent.height != GetWindowProps()->GetHeight()) {
+                    GetWindowProps()->SetWidth(configureEvent.width);
+                    GetWindowProps()->SetHeight(configureEvent.height);
+                    m_handler.Invoke(WindowResizedEvent(configureEvent.width, configureEvent.height));
+                }
+
                 m_handler.Invoke(WindowMovedEvent(configureEvent.x, configureEvent.y));
             } break;
         
