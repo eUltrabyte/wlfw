@@ -1,79 +1,68 @@
 #pragma once
-#ifndef WLFW_WINDOW_WIN32_HEADER
-#define WLFW_WINDOW_WIN32_HEADER
+#ifndef WLFW_WINDOW_X11_HEADER
+#define WLFW_WINDOW_X11_HEADER
 
 #include "../NativeWindow.hpp"
 
 namespace wl {
     ////////////////////////////////////////////////////////////
-    /// \brief Function Which Convert Winapi Key Numbers To wl::Keys Enum Variables
+    /// \brief Window X11 Class
     ///
     ////////////////////////////////////////////////////////////
-    extern int WLFW_API ConvertWin32KeyToFixedKey(int key);
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Window Win32 Class
-    ///
-    ////////////////////////////////////////////////////////////
-    class WLFW_API WindowWin32 : public NativeWindow {
+    class WLFW_API WindowX11 : public NativeWindow {
     public:
         ////////////////////////////////////////////////////////////
-        /// \brief WindowWin32 Constructor
+        /// \brief WindowX11 Constructor
         ///
         ////////////////////////////////////////////////////////////
-        WindowWin32(const WindowProps& windowProps = WindowProps());
+        WindowX11(const WindowProps& windowProps = WindowProps());
 
         ////////////////////////////////////////////////////////////
-        /// \brief WindowWin32 Destructor
+        /// \brief WindowX11 Destructor
         ///
         ////////////////////////////////////////////////////////////
-        virtual ~WindowWin32();
+        virtual ~WindowX11();
 
         ////////////////////////////////////////////////////////////
-        /// \brief WindowWin32 Update Function
+        /// \brief WindowX11 Update Function
         ///
         ////////////////////////////////////////////////////////////
         virtual void Update();
 
         ////////////////////////////////////////////////////////////
-        /// \brief WindowWin32 Set Event Handler Function
+        /// \brief WindowX11 Set Event Handler Function
         ///
         ////////////////////////////////////////////////////////////
         virtual void SetEventHandler(const EventHandler& handler);
 
         ////////////////////////////////////////////////////////////
-        /// \brief WindowWin32 Get Window Proc Function
+        /// \brief WindowX11 Get Display Function
         ///
         ////////////////////////////////////////////////////////////
-        virtual LRESULT GetWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+        virtual Display*& GetDisplay();
 
         ////////////////////////////////////////////////////////////
-        /// \brief WindowWin32 Get HWND Function
+        /// \brief WindowX11 Get Window Function
         ///
         ////////////////////////////////////////////////////////////
-        virtual HWND& GetHWND();
+        virtual Window& GetWindow();
 
         ////////////////////////////////////////////////////////////
-        /// \brief WindowWin32 Get HINSTANCE Function
-        ///
-        ////////////////////////////////////////////////////////////
-        virtual HINSTANCE& GetHINSTANCE();
-
-        ////////////////////////////////////////////////////////////
-        /// \brief WindowWin32 Get Event Handler Function
+        /// \brief WindowX11 Get Event Handler Function
         ///
         ////////////////////////////////////////////////////////////
         virtual EventHandler& GetEventHandler();
 
     private:
-        WNDCLASS m_windowClass;
-        HINSTANCE m_hinstance;
-        HWND m_hwnd;
+        Display* m_display;
+        ::Window m_window;
+        XEvent m_event;
+        Atom m_wmDeleteMessage;
         EventHandler m_handler;
 
     };
 
-    using Window = WindowWin32;
+    using Window = WindowX11;
 };
 
 #endif

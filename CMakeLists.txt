@@ -15,26 +15,34 @@ set(WLFW_SOURCE
     Source/wlfw/EventHandler.hpp
 )
 
-set(WLFW_UNIX_WINDOW_PLATFORM X11)
+set(WLFW_UNIX_WINDOW_PLATFORM XCB)
 if(UNIX)
     set(THREADS_PREFER_PTHREAD_FLAG ON)
     find_package(Threads REQUIRED)
 
     if(WLFW_UNIX_WINDOW_PLATFORM STREQUAL "X11")
-        message("Using X11")
+        message("-- Using X11")
         find_package(X11 REQUIRED)
 
+        set(WLFW_PLATFORM_SOURCE
+            Source/wlfw/X11/WindowX11.hpp
+            Source/wlfw/X11/WindowX11.cpp
+        )
     elseif(WLFW_UNIX_WINDOW_PLATFORM STREQUAL "XCB")
-        message("Using XCB")
+        message("-- Using XCB")
         find_package(X11 REQUIRED)
 
+        set(WLFW_PLATFORM_SOURCE
+            Source/wlfw/XCB/WindowXCB.hpp
+            Source/wlfw/XCB/WindowXCB.cpp
+        )
     elseif(WLFW_UNIX_WINDOW_PLATFORM STREQUAL "Wayland")
-        message("Using Wayland")
+        message("-- Using Wayland")
         find_package(Wayland COMPONENTS Client Server REQUIRED)
 
     endif()
 else()
-    message("Using Win32")
+    message("-- Using Win32")
 
     set(WLFW_PLATFORM_SOURCE
         Source/wlfw/Win32/WindowWin32.hpp

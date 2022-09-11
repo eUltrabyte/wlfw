@@ -50,7 +50,7 @@ namespace wl {
                 bool pressed = false;
                 int direction = 0;
                 data >> pressed >> junk >> direction;
-                std::cout << "Mouse Scolled Event : " << pressed << " : " << direction << '\n'; 
+                std::cout << "Mouse Scrolled Event : " << pressed << " : " << direction << '\n'; 
             };
 
             m_mouseMovedEventCallback = [](std::stringstream& data) {
@@ -90,7 +90,6 @@ namespace wl {
                 data >> key;
                 std::cout << "Key Repeated Event : " << key << '\n'; 
             };
-
         }
 
         ////////////////////////////////////////////////////////////

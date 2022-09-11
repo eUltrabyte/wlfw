@@ -33,7 +33,6 @@
     #include <windowsx.h>
 #else
     #ifdef WLFW_UNIX_WINDOW_PLATFORM_X11
-        #include <X11/X11.h>
         #include <X11/Xlib.h>
     #elif WLFW_UNIX_WINDOW_PLATFORM_XCB
         #include <xcb/xcb.h>

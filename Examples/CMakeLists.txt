@@ -1,2 +1,3 @@
 add_subdirectory(Window)
 add_subdirectory(MultiWindowing)
+add_subdirectory(EventHandling)

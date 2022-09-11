@@ -11,16 +11,17 @@ wlfw is window library framework which plan is to allow developer make window fo
 ### Examples
 - [x] Native Window
 - [x] Multi Windowing
+- [x] Event Handling
 - [ ] Making Context For Vulkan
 - [ ] Making Context For OpenGL
 - [ ] Making Context For Native Rendering API
-- [ ] Event Handling
 
 ### Todo
 - [x] Event Handler
 - [x] Win32 Support
-- [ ] Linux Support
-- [ ] MacOS Support
+- [x] X11 Support
+- [x] XCB Support
+- [ ] Wayland Support
 - [ ] Android Support
 - [ ] iOS Support
 - [ ] Multi Windowing Support

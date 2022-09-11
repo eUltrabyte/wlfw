@@ -12,7 +12,7 @@ namespace wl {
     ///
     ////////////////////////////////////////////////////////////
     enum WLFW_API Style {
-        None = WLFW_BYTE(0),
+        Null = WLFW_BYTE(0),
         Titlebar = WLFW_BYTE(1),
         Minimize = WLFW_BYTE(2),
         Maximize = WLFW_BYTE(3),
