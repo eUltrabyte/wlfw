@@ -97,7 +97,7 @@ namespace wl {
         RegisterClass(&m_windowClass);
 
         unsigned long windowStyles = WS_VISIBLE;
-        if(GetWindowProps()->GetStyle() == Style::None) {
+        if(GetWindowProps()->GetStyle() == Style::Null) {
             windowStyles |= WS_POPUP;
         } else {
             if(GetWindowProps()->GetStyle() & Style::Titlebar) {
