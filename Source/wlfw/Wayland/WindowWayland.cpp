@@ -6,9 +6,9 @@ namespace wl {
 
     static void global_registry_handler(void* data, struct wl_registry* registry, uint32_t id, const char* interface, uint32_t version) {
         if(strcmp(interface, "wl_compositor") == 0) {
-            compositor = wl_registry_bind(registry, id, &wl_compositor_interface, 1);
+            compositor = (wl_compositor*)wl_registry_bind(registry, id, &wl_compositor_interface, 1);
         } else if (strcmp(interface, "wl_shell") == 0) {
-            shell = wl_registry_bind(registry, id, &wl_shell_interface, 1);
+            shell = (wl_shell*)wl_registry_bind(registry, id, &wl_shell_interface, 1);
         }
     }
 
@@ -34,8 +34,8 @@ namespace wl {
         struct wl_registry* registry = wl_display_get_registry(m_display);
         wl_registry_add_listener(registry, &registry_listener, 0);
 
-        wl_display_dispatch(display);
-        wl_display_roundtrip(display);
+        wl_display_dispatch(m_display);
+        wl_display_roundtrip(m_display);
 
         m_surface = wl_compositor_create_surface(compositor);
 
