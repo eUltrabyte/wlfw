@@ -10,6 +10,8 @@ namespace wl {
 
         m_display = XOpenDisplay(nullptr);
         m_window = XCreateSimpleWindow(m_display, RootWindow(m_display, DefaultScreen(m_display)), 0, 0, GetWindowProps()->GetWidth(), GetWindowProps()->GetHeight(), 0, 0, 0);
+        WLFW_CHECK(m_window);
+        
         XStoreName(m_display, m_window, GetWindowProps()->GetTitle().c_str());
         XSelectInput(m_display, m_window, ExposureMask | ResizeRedirectMask | FocusChangeMask | StructureNotifyMask | PointerMotionMask | ButtonPressMask | ButtonReleaseMask | KeyPressMask | KeyReleaseMask);
         

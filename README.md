@@ -6,7 +6,8 @@
 [![Pull Requests](https://img.shields.io/github/issues-pr/eUltrabyte/wlfw)](https://github.com/eUltrabyte/wlfw/pulls)
 [![Forks](https://img.shields.io/github/forks/eUltrabyte/wlfw)](https://github.com/eUltrabyte/wlfw)
 
-wlfw is window library framework which plan is to allow developer make window for Windows, Unix based systems like Linux and MacOS, Android and iOS.
+wlfw is window library framework which plan is to allow developer make window with winapi, x11, xcb and wayland.
+maybe i will implement making context for native rendering api, android and ios support.
 
 ### Examples
 - [x] Native Window
@@ -14,7 +15,6 @@ wlfw is window library framework which plan is to allow developer make window fo
 - [x] Event Handling
 - [ ] Making Context For Vulkan
 - [ ] Making Context For OpenGL
-- [ ] Making Context For Native Rendering API
 
 ### Todo
 - [x] Event Handler
@@ -22,9 +22,6 @@ wlfw is window library framework which plan is to allow developer make window fo
 - [x] X11 Support
 - [x] XCB Support
 - [ ] Wayland Support
-- [ ] Android Support
-- [ ] iOS Support
 - [ ] Multi Windowing Support
 - [ ] Making Context For Vulkan
 - [ ] Making Context For OpenGL
-- [ ] Making Context For Native Rendering API

@@ -15,7 +15,7 @@ set(WLFW_SOURCE
     Source/wlfw/EventHandler.hpp
 )
 
-set(WLFW_UNIX_WINDOW_PLATFORM XCB)
+set(WLFW_UNIX_WINDOW_PLATFORM Wayland)
 if(UNIX)
     set(THREADS_PREFER_PTHREAD_FLAG ON)
     find_package(Threads REQUIRED)
@@ -38,8 +38,12 @@ if(UNIX)
         )
     elseif(WLFW_UNIX_WINDOW_PLATFORM STREQUAL "Wayland")
         message("-- Using Wayland")
-        find_package(Wayland COMPONENTS Client Server REQUIRED)
+        # find_package(Wayland COMPONENTS Client Server REQUIRED)
 
+        set(WLFW_PLATFORM_SOURCE
+            Source/wlfw/Wayland/WindowWayland.hpp
+            Source/wlfw/Wayland/WindowWayland.cpp
+        )
     endif()
 else()
     message("-- Using Win32")
@@ -75,7 +79,7 @@ if(UNIX)
         target_link_libraries(${PROJECT_NAME} PUBLIC X11 xcb Threads::Threads)
     elseif(WLFW_UNIX_WINDOW_PLATFORM STREQUAL "Wayland")
         target_compile_definitions(${PROJECT_NAME} PUBLIC "-DWLFW_UNIX_WINDOW_PLATFORM_WAYLAND")
-        target_link_libraries(${PROJECT_NAME} PUBLIC ${Wayland_LIBRARIES} Threads::Threads)
+        target_link_libraries(${PROJECT_NAME} PUBLIC wayland-client Threads::Threads)
     endif()
 else()
     target_compile_definitions(${PROJECT_NAME} PUBLIC "-DWLFW_WINDOW_PLATFORM_WIN32")

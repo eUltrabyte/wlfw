@@ -10,7 +10,7 @@
     #elif WLFW_UNIX_WINDOW_PLATFORM_XCB
         #include "XCB/WindowXCB.hpp"
     #elif WLFW_UNIX_WINDOW_PLATFORM_WAYLAND
-        // TODO
+        #include "Wayland/WindowWayland.hpp"
     #endif
 #endif
 
