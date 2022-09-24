@@ -38,9 +38,15 @@ if(UNIX)
         )
     elseif(WLFW_UNIX_WINDOW_PLATFORM STREQUAL "Wayland")
         message("-- Using Wayland")
-        # find_package(Wayland COMPONENTS Client Server REQUIRED)
+        
+        # execute_process(COMMAND wget https://cgit.freedesktop.org/wayland/wayland-protocols/plain/stable/xdg-shell/xdg-shell.xml)
+
+        # execute_process(COMMAND wayland-scanner client-header ${CMAKE_CURRENT_BINARY_DIR}/xdg-shell.xml ${CMAKE_SOURCE_DIR}/Source/wlfw/Wayland/xdg-shell-client-protocol.hpp)
+        # execute_process(COMMAND wayland-scanner private-code ${CMAKE_CURRENT_BINARY_DIR}/xdg-shell.xml ${CMAKE_SOURCE_DIR}/Source/wlfw/Wayland/xdg-shell-protocol.cpp)
 
         set(WLFW_PLATFORM_SOURCE
+            Source/wlfw/Wayland/xdg-shell-client-protocol.hpp
+            Source/wlfw/Wayland/xdg-shell-protocol.cpp
             Source/wlfw/Wayland/WindowWayland.hpp
             Source/wlfw/Wayland/WindowWayland.cpp
         )
