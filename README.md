@@ -13,8 +13,7 @@ maybe i will implement making context for native rendering api, android and ios 
 - [x] Native Window
 - [x] Multi Windowing
 - [x] Event Handling
-- [ ] Making Context For Vulkan
-- [ ] Making Context For OpenGL
+- [ ] Context
 
 ### Todo
 - [x] Event Handler
@@ -22,6 +21,5 @@ maybe i will implement making context for native rendering api, android and ios 
 - [x] X11 Support
 - [x] XCB Support
 - [ ] Wayland Support
-- [ ] Multi Windowing Support
-- [ ] Making Context For Vulkan
-- [ ] Making Context For OpenGL
+- [x] Context For Vulkan
+- [ ] Context For OpenGL

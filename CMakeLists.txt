@@ -15,7 +15,24 @@ set(WLFW_SOURCE
     Source/wlfw/EventHandler.hpp
 )
 
-set(WLFW_UNIX_WINDOW_PLATFORM Wayland)
+set(WLFW_CONTEXT Vulkan)
+if(WLFW_CONTEXT STREQUAL "OpenGL")
+    message("-- Using OpenGL Context")
+    find_package(OpenGL REQUIRED)
+elseif(WLFW_CONTEXT STREQUAL "Vulkan")
+    message("-- Using Vulkan Context")
+    find_package(Vulkan REQUIRED)
+else()
+    message("-- Using Default Context ( OpenGL )")
+    find_package(OpenGL REQUIRED)
+endif()
+
+set(WLFW_CONTEXT_SOURCE
+    Source/wlfw/Context.hpp
+    Source/wlfw/Context.cpp
+)
+
+set(WLFW_UNIX_WINDOW_PLATFORM X11)
 if(UNIX)
     set(THREADS_PREFER_PTHREAD_FLAG ON)
     find_package(Threads REQUIRED)
@@ -68,13 +85,25 @@ if(WLFW_SHARED_LIBRARY)
     if(WLFW_SHARED_BUILD)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DWLFW_SHARED_BUILD")
     endif()
-    add_library(${PROJECT_NAME} SHARED ${WLFW_SOURCE} ${WLFW_PLATFORM_SOURCE})
+
+    add_library(${PROJECT_NAME} SHARED ${WLFW_SOURCE} ${WLFW_CONTEXT_SOURCE} ${WLFW_PLATFORM_SOURCE})
 else()
-    add_library(${PROJECT_NAME} STATIC ${WLFW_SOURCE} ${WLFW_PLATFORM_SOURCE})
+    add_library(${PROJECT_NAME} STATIC ${WLFW_SOURCE} ${WLFW_CONTEXT_SOURCE} ${WLFW_PLATFORM_SOURCE})
 endif()
 
 target_precompile_headers(${PROJECT_NAME} PUBLIC Source/wlfw/wlfwpch.hpp Source/wlfw/wlfwpch.cpp)
 target_compile_definitions(${PROJECT_NAME} PUBLIC $<$<CONFIG:Debug>:WLFW_DEBUG> $<$<CONFIG:RelWithDebInfo>:WLFW_DEBUG>)
+
+if(WLFW_CONTEXT STREQUAL "OpenGL")
+    target_compile_definitions(${PROJECT_NAME} PUBLIC "-DWLFW_CONTEXT_OPENGL")
+    target_link_libraries(${PROJECT_NAME} PUBLIC OpenGL::OpenGL)
+elseif(WLFW_CONTEXT STREQUAL "Vulkan")
+    target_compile_definitions(${PROJECT_NAME} PUBLIC "-DWLFW_CONTEXT_VULKAN")
+    target_link_libraries(${PROJECT_NAME} PUBLIC Vulkan::Vulkan)
+else()
+    target_compile_definitions(${PROJECT_NAME} PUBLIC "-DWLFW_CONTEXT_OPENGL")
+    target_link_libraries(${PROJECT_NAME} PUBLIC OpenGL::OpenGL)
+endif()
 
 if(UNIX)
     if(WLFW_UNIX_WINDOW_PLATFORM STREQUAL "X11")

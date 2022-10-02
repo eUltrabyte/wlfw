@@ -111,8 +111,8 @@ namespace wl {
         return m_display;
     }
  
-    wl_compositor*& WindowWayland::GetCompositor() {
-        return m_compositor;
+    wl_surface*& WindowWayland::GetSurface() {
+        return m_surface;
     }
  
     EventHandler& WindowWayland::GetEventHandler() {

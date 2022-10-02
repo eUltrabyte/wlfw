@@ -53,10 +53,10 @@ namespace wl {
         virtual wl_display*& GetDisplay();
 
         ////////////////////////////////////////////////////////////
-        /// \brief WindowWayland Get Compositor Function
+        /// \brief WindowWayland Get Surface Function
         ///
         ////////////////////////////////////////////////////////////
-        virtual wl_compositor*& GetCompositor();
+        virtual wl_surface*& GetSurface();
 
         ////////////////////////////////////////////////////////////
         /// \brief WindowWayland Get Event Handler Function
